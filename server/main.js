@@ -3,6 +3,7 @@ const debug = require('debug')('app:server')
 const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.config')
 const config = require('../config')
+const converter = require('./libs/converter').numberToLetterCombination
 
 const app = express()
 const paths = config.utils_paths
@@ -10,7 +11,7 @@ const paths = config.utils_paths
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement universal
 // rendering, you'll want to remove this middleware.
-app.use(require('connect-history-api-fallback')())
+// app.use(require('connect-history-api-fallback')())
 
 // ------------------------------------
 // Apply Webpack HMR Middleware
@@ -49,5 +50,11 @@ if (config.env === 'development') {
   // server in production.
   app.use(express.static(paths.dist()))
 }
+
+app.get('/api/:number', (req, res) => {
+  setTimeout(() => {
+    res.send(converter(req.params.number))
+  }, 500)
+})
 
 module.exports = app
