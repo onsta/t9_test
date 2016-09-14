@@ -1,14 +1,10 @@
 import { combineReducers } from 'redux'
+import t9reducer from '../routes/Home/modules/t9'
 
-export const makeRootReducer = (asyncReducers) => {
+export const makeRootReducer = () => {
   return combineReducers({
-    ...asyncReducers
+    t9: t9reducer
   })
-}
-
-export const injectReducer = (store, { key, reducer }) => {
-  store.asyncReducers[key] = reducer
-  store.replaceReducer(makeRootReducer(store.asyncReducers))
 }
 
 export default makeRootReducer
